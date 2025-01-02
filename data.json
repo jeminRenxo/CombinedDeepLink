@@ -3,8 +3,8 @@
       "version": "1.1",
         "useSecured":true,
     "min_version":"1.0",
-      "Server_url": "simple-server-1040087096116.asia-south2.run.app",
-      "PlayerMatch_url":"simple-server-1040087096116.asia-south2.run.app",
+      "Server_url": "192.168.31.82:8084",
+      "PlayerMatch_url":"192.168.31.82:8084",
         "app_url":"https://play.google.com/store/apps/details?id=enterprises.dating.boo"
     },
     "Checkers":{
