@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open App</title>
+    <script>
+        function openApp() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var path = window.location.pathname; // Get the path part of the URL
+            var queryString = window.location.search; // Get the query string part of the URL
+            var lastSegment = queryString.split('?')[1]; // Get the part after "?"
+
+            // Define a lookup object where the last 3 characters map to game names
+            var gameLookup = {
+                "G01": "tictactoe",
+                "G02": "ludo",
+                "G03": "checkers",
+                "G04": "blackjack"
+                // Add more mappings as needed
+            };
+            // Use market://details?id= URI scheme for Android 
+             var appLookupForPlayStore = {
+                "G01": "market://details?id=com.lutsgames.IdleSuperpowers",
+                "G02": "market://details?id=enterprises.dating.boo",
+                "G03": "market://details?id=enterprises.dating.boo",
+                "G04": "market://details?id=enterprises.dating.boo"
+                // Add more mappings as needed
+            };
+            // Replace with your app's App Store URL
+            var appLookupForAppStore = {
+                "G01": "https://apps.apple.com/us/app/keynote/id361285480",
+                "G02": "https://apps.apple.com/us/app/keynote/id361285480",
+                "G03": "https://apps.apple.com/us/app/keynote/id361285480",
+                "G04": "https://apps.apple.com/us/app/keynote/id361285480"
+                // Add more mappings as needed
+            };
+            // Replace with your fallback Play Store URL
+            var appLookupForWindows = {
+                "G01": "https://play.google.com/store/apps/details?id=com.lutsgames.IdleSuperpowers",
+                "G02": "https://play.google.com/store/apps/details?id=com.lutsgames.IdleSuperpowers",
+                "G03": "https://play.google.com/store/apps/details?id=com.lutsgames.IdleSuperpowers",
+                "G04": "https://play.google.com/store/apps/details?id=com.lutsgames.IdleSuperpowers"
+                // Add more mappings as needed
+            };
+
+            // Extract the last 3 characters from lastSegment
+            if( lastSegment !=null && lastSegment.length>=2){
+                
+                var lastThreeChars = lastSegment.slice(-3); // Get the last 3 characters
+                     // Determine the game name based on lastThreeChars
+                var gameName = gameLookup[lastThreeChars] || 'tictactoe'; // Default to "tictactoe" if not found
+            }
+
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            var isAndroid = /android/i.test(userAgent);
+            var isiOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+            function redirectToAppStore() {
+                console.log("Redirecting to app store...");
+                console.log("User Agent:", userAgent);
+                if (isiOS) {
+                    console.log("Opening App Store for iOS...");
+                    window.location.href = appLookupForAppStore[lastThreeChars] || "https://renxo.tech/";
+                } else if (isAndroid) {
+                    console.log("Opening Google Play Store for Android...");
+                    window.location.href = appLookupForPlayStore[lastThreeChars] || "https://renxo.tech/";  
+                } else {
+                    console.log("Device not recognized. Redirecting to fallback Play Store URL...");
+                    window.location.href = appLookupForWindows[lastThreeChars] || "https://renxo.tech/";  
+                }
+            }
+
+           
+               if (lastSegment && lastSegment.length >= 8 && lastThreeChars.length == 3) {
+                if (isiOS || isAndroid) {
+                    console.log("Attempting to open app with deep link...");
+                    console.log("User Agent:", userAgent);
+                    var deepLink = 'gatch://'+gameName+'?ServerConnection#' + lastSegment;
+                    // Try opening the app with the deep link
+                    window.location.href = deepLink;
+                    setTimeout(function() {
+                        console.log("Checking if app was opened successfully...");
+                        console.log("User Agent:", userAgent);
+                        // If the app is not installed, redirect to the app store
+                        redirectToAppStore();
+                    }, 1500); // Adjust timeout as necessary
+                } else {
+                    console.log("Device not supported. Redirecting to app store...");
+                    console.log("User Agent:", userAgent);
+                    redirectToAppStore(); // Redirect to the app store if the device is not supported
+                }
+            } else {
+                console.log("Last segment is too short or missing. Redirecting to app store...");
+                redirectToAppStore(); // Redirect to the app store if lastSegment is missing or less than 8 characters
+            }
+            
+        }
+        // Clear browser cache
+    setTimeout(function() {
+        console.log("Clearing browser cache...");
+        window.location.reload(true);
+    }, 2000); // Adjust the delay as necessary
+    </script>
+</head>
+<body onload="openApp()">
+    <h1>Redirecting...</h1>
+</body>
+</html>
