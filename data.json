@@ -1,7 +1,7 @@
 {
     "TicTacToe": {
       "version": "1.1",
-        "useSecured":false,
+        "useSecured":true,
     "min_version":"1.0",
       "Server_url": "simple-server-1040087096116.asia-south2.run.app",
       "PlayerMatch_url":"simple-server-1040087096116.asia-south2.run.app",
